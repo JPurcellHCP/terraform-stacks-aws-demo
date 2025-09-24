@@ -1,0 +1,26 @@
+# Terraform Stack Variables Example
+# Copy this file to terraform.tfvars and customize for your deployments
+
+# Project name - used in resource naming
+# project_name = "my-company-stack"
+
+# Default instance type across deployments  
+# instance_type = "t3.small"
+
+# VPC CIDR blocks for different deployments
+# Uncomment and modify if you want to override defaults
+# vpc_cidr = "10.0.0.0/16"
+# subnet_cidr = "10.0.1.0/24"
+
+# SSH access restrictions
+# For development, you might allow broader access:
+# allowed_ssh_cidrs = ["0.0.0.0/0"]
+
+# For production, restrict to specific networks:
+# allowed_ssh_cidrs = ["10.0.0.0/8", "192.168.0.0/16"]
+
+# Or restrict to your specific IP:
+# allowed_ssh_cidrs = ["YOUR.IP.ADDRESS/32"]
+
+# Note: These variables are defined in components.tfstack.hcl and can be
+# overridden per deployment in deployments.tfdeploy.hcl or globally here.
