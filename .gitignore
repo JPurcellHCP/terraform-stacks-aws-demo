@@ -50,5 +50,5 @@ terraform.rc
 *.tmp
 *.bak
 
-# Ignore Terraform lock file (Stacks manages provider dependencies centrally)
-.terraform.lock.hcl
+# Include Terraform lock file for consistent provider versions
+# .terraform.lock.hcl
