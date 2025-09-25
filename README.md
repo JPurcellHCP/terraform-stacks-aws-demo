@@ -45,12 +45,48 @@ aws-provider-example/
 ## Usage
 
 ### Prerequisites
-1. **AWS Credentials**: Configure AWS credentials via:
-   - AWS CLI (`aws configure`)
-   - Environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
-   - IAM roles (if running on EC2)
 
-2. **Terraform**: Install Terraform 1.5+ with Stacks support
+1. **Terraform**: Install Terraform 1.13.0+ with integrated Stacks support
+
+2. **AWS OIDC Setup**: Configure OIDC identity provider and trusted role in AWS:
+   
+   ### Step 1: Create OIDC Identity Provider (if not exists)
+   ```bash
+   aws iam create-openid-connect-provider \
+     --url https://app.terraform.io \
+     --client-id-list aws.workload.identity \
+     --thumbprint-list 9e99a48a9960b14926bb7f3b02e22da2b0ab7280
+   ```
+   
+   ### Step 2: Create IAM Role for Terraform Stacks
+   Create a role with this trust policy (replace YOUR_ORG, YOUR_PROJECT, YOUR_STACK):
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Principal": {
+           "Federated": "arn:aws:iam::YOUR_ACCOUNT_ID:oidc-provider/app.terraform.io"
+         },
+         "Action": "sts:AssumeRoleWithWebIdentity",
+         "Condition": {
+           "StringEquals": {
+             "app.terraform.io:aud": "aws.workload.identity"
+           },
+           "StringLike": {
+             "app.terraform.io:sub": "organization:YOUR_ORG:project:YOUR_PROJECT:stack:YOUR_STACK:*"
+           }
+         }
+       }
+     ]
+   }
+   ```
+   
+   ### Step 3: Attach Permissions to Role
+   Attach appropriate AWS policies (e.g., EC2FullAccess, VPCFullAccess) to the role.
+
+3. **Update Deployment Configuration**: Replace `YOUR_ACCOUNT_ID` in `deployments.tfdeploy.hcl` with your actual AWS account ID and role name.
 
 ### Deployment Commands
 

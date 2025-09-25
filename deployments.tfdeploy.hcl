@@ -2,6 +2,11 @@
 # This file demonstrates how to use different AWS providers per deployment
 # Each deployment targets different AWS regions, showing provider flexibility
 
+# OIDC Identity Token for AWS authentication
+identity_token "aws" {
+  audience = ["aws.workload.identity"]
+}
+
 # Development Environment - Single Region
 deployment "development" {
   inputs = {
@@ -12,6 +17,10 @@ deployment "development" {
     vpc_cidr          = "10.0.0.0/16"
     subnet_cidr       = "10.0.1.0/24"
     allowed_ssh_cidrs = ["0.0.0.0/0"] # In production, restrict this
+    
+    # OIDC Authentication - Replace with your actual role ARN
+    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
+    identity_token = identity_token.aws.jwt
   }
 }
 
@@ -25,6 +34,10 @@ deployment "staging" {
     vpc_cidr          = "10.1.0.0/16"
     subnet_cidr       = "10.1.1.0/24"
     allowed_ssh_cidrs = ["10.0.0.0/8", "192.168.0.0/16"] # More restricted
+    
+    # OIDC Authentication - Replace with your actual role ARN
+    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
+    identity_token = identity_token.aws.jwt
   }
 }
 
@@ -38,6 +51,10 @@ deployment "production" {
     vpc_cidr          = "10.2.0.0/16"
     subnet_cidr       = "10.2.1.0/24"
     allowed_ssh_cidrs = ["10.0.0.0/8"] # Very restricted for production
+    
+    # OIDC Authentication - Replace with your actual role ARN
+    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
+    identity_token = identity_token.aws.jwt
   }
 }
 
@@ -51,5 +68,9 @@ deployment "global" {
     vpc_cidr          = "10.3.0.0/16"
     subnet_cidr       = "10.3.1.0/24"
     allowed_ssh_cidrs = ["10.0.0.0/8"]
+    
+    # OIDC Authentication - Replace with your actual role ARN
+    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
+    identity_token = identity_token.aws.jwt
   }
 }

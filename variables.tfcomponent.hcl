@@ -8,6 +8,18 @@ variable "environment" {
   description = "Environment name (e.g., dev, staging, prod)"
 }
 
+variable "role_arn" {
+  type        = string
+  description = "AWS IAM Role ARN for OIDC authentication"
+}
+
+variable "identity_token" {
+  type        = string
+  description = "JWT token for OIDC authentication with AWS"
+  sensitive   = true
+  ephemeral   = true
+}
+
 variable "project_name" {
   type        = string
   description = "Name of the project for resource naming"
