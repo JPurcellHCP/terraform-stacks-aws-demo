@@ -12,8 +12,9 @@ provider "aws" "configurations" {
     region = each.value
     
     assume_role_with_web_identity {
-      role_arn           = var.role_arn
-      web_identity_token = var.identity_token
+      role_arn                = var.role_arn
+      web_identity_token      = var.identity_token
+      session_name           = "terraform-stacks-${each.value}-${var.environment}"
     }
 
     default_tags {
