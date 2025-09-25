@@ -17,10 +17,8 @@ deployment "development" {
     vpc_cidr          = "10.0.0.0/16"
     subnet_cidr       = "10.0.1.0/24"
     allowed_ssh_cidrs = ["0.0.0.0/0"] # In production, restrict this
-    
-    # OIDC Authentication - Replace with your actual role ARN
-    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
-    identity_token = identity_token.aws.jwt
+    role_arn          = "arn:aws:iam::458689188825:role/jpp-aws-sandbox-workload-identity-role"
+    identity_token    = identity_token.aws.jwt
   }
 }
 
@@ -35,8 +33,8 @@ deployment "staging" {
     subnet_cidr       = "10.1.1.0/24"
     allowed_ssh_cidrs = ["10.0.0.0/8", "192.168.0.0/16"] # More restricted
     
-    # OIDC Authentication - Replace with your actual role ARN
-    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
+    # OIDC Authentication
+    role_arn       = "arn:aws:iam::458689188825:role/jpp-aws-sandbox-workload-identity-role"
     identity_token = identity_token.aws.jwt
   }
 }
@@ -52,8 +50,8 @@ deployment "production" {
     subnet_cidr       = "10.2.1.0/24"
     allowed_ssh_cidrs = ["10.0.0.0/8"] # Very restricted for production
     
-    # OIDC Authentication - Replace with your actual role ARN
-    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
+    # OIDC Authentication
+    role_arn       = "arn:aws:iam::458689188825:role/jpp-aws-sandbox-workload-identity-role"
     identity_token = identity_token.aws.jwt
   }
 }
@@ -69,8 +67,8 @@ deployment "global" {
     subnet_cidr       = "10.3.1.0/24"
     allowed_ssh_cidrs = ["10.0.0.0/8"]
     
-    # OIDC Authentication - Replace with your actual role ARN
-    role_arn       = "arn:aws:iam::YOUR_ACCOUNT_ID:role/terraform-stacks-role"
+    # OIDC Authentication
+    role_arn       = "arn:aws:iam::458689188825:role/jpp-aws-sandbox-workload-identity-role"
     identity_token = identity_token.aws.jwt
   }
 }
